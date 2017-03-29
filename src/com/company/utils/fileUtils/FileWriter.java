@@ -1,5 +1,7 @@
 package com.company.utils.fileUtils;
 
+import com.company.templates.Template;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
@@ -9,60 +11,28 @@ import java.io.IOException;
  */
 public class FileWriter {
 
-    public enum OutputType {
-        ANDROID,
-        SVG
-    }
+    public static void writeToFile(Template template) {
+        String path = template.getOutputPath();
+        String pathName = path + template.getFileName();
 
-    private final static String DEFAULT_ANDROID_OUTPUT_DIR = "android-svg" + "/";
-    private final static String DEFAULT_SVG_OUTPUT_DIR = "svg" + "/";
-
-    public static void writeToFile(OutputType outputType, String fileName, String data) {
-        String path = getDefaultDir(outputType);
-        String pathName = path + fileName;
-
-        createDir(path);
+        FileUtils.createPath(path);
 
         try {
             File file = new File(pathName);
 
             if(!file.exists() && file.createNewFile()) {
-                System.out.println("Created " + fileName + "!");
+                System.out.println("Created " + template.getFileName() + "!");
             }
 
             BufferedWriter bw = new BufferedWriter(new java.io.FileWriter(pathName));
 
-            bw.write(data);
+            bw.write(template.getOutputString());
             bw.close();
 
-            System.out.println("Done writing " + fileName);
+            System.out.println("Done writing " + template.getFileName());
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public static void createDir(String pathName) {
-        File file = new File(pathName);
-        if (!file.exists()) {
-            if (file.mkdir()) {
-                System.out.println("Directory (" + pathName + ") is created!");
-            } else {
-                System.out.println("Failed to create directory! (" + pathName + ")");
-            }
-        }
-    }
-
-    private static String getDefaultDir(OutputType outputType){
-        String path = FileUtils.getOutputPath();
-
-        switch (outputType){
-            case ANDROID:
-                return path + DEFAULT_ANDROID_OUTPUT_DIR;
-            case SVG:
-                return path + DEFAULT_SVG_OUTPUT_DIR;
-            default:
-                return path + DEFAULT_SVG_OUTPUT_DIR;
         }
     }
 }

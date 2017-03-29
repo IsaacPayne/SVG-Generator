@@ -17,9 +17,14 @@ import java.util.ArrayList;
  */
 public class XMLParser {
 
-    private static String fontPath = FileUtils.getFontAwesomePath() + "/fonts" + "/";
+    private String fontPath = FileUtils.getFontAwesomePath() + "fonts/";
+    private String fileName;
 
-    public static ArrayList<Glyph> parse(String fileName) {
+    public XMLParser(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public ArrayList<Glyph> parse() {
         ArrayList<Glyph> glyphs = new ArrayList<>();
 
         try {

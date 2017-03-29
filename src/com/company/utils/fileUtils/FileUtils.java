@@ -13,22 +13,30 @@ public class FileUtils {
     }
 
     public static String getOutputPath() {
-        String pathName = getRootPath() + "output" + "/";
-        createDir(pathName);
-        return pathName;
+        return getRootPath() + "output/";
     }
 
     public static String getFontAwesomePath() {
-        return getRootPath() + "src" + "/com" + "/company" + "/font_awesome";
+        return getRootPath() + "src/" + "com/" + "company/" + "font_awesome/";
     }
 
-    public static void createDir(String pathName) {
-        File file = new File(pathName);
+    /**
+     * Recursively creates any directories need to create the full path
+     * @param path The path we want to create
+     */
+    static void createPath(String path) {
+        File file = new File(path);
+
+        File parent = file.getParentFile();
+        if(!parent.exists()) {
+            createPath(parent.getAbsolutePath());
+        }
+
         if (!file.exists()) {
             if (file.mkdir()) {
-                System.out.println("Directory (" + pathName + ") is created!");
+                System.out.println("Directory (" + path + ") is created!");
             } else {
-                System.out.println("Failed to create directory! (" + pathName + ")");
+                System.out.println("Failed to create directory! (" + path + ")");
             }
         }
     }

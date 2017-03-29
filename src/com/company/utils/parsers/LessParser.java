@@ -13,15 +13,21 @@ import java.util.regex.Pattern;
 public class LessParser {
 
     //@fa-var-([\w-]+):\s*"\\([0-9a-f]+)"
-    private static final String ANY_CHAR = "\\w";
-    private static final String SPACE_CHAR = "\\s";
-    private static final String SLASH_CHAR = "\\\\";
+    private final String ANY_CHAR = "\\w";
+    private final String SPACE_CHAR = "\\s";
+    private final String SLASH_CHAR = "\\\\";
 
-    private static final String LESS_REG_EX = "@fa-var-(["+ANY_CHAR+"-]+):"+SPACE_CHAR+"*\""+SLASH_CHAR+"([0-9a-f]+)\";";
+    private final String LESS_REG_EX = "@fa-var-(["+ANY_CHAR+"-]+):"+SPACE_CHAR+"*\""+SLASH_CHAR+"([0-9a-f]+)\";";
 
-    private static String fontPath = FileUtils.getFontAwesomePath() + "/less" + "/";
+    private String fontPath = FileUtils.getFontAwesomePath() + "less/";
 
-    public static HashMap<String, String> parse(String fileName) {
+    private String fileName;
+
+    public LessParser(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public HashMap<String, String> parse() {
 
         HashMap<String, String> nameMap = new HashMap<>();
 
@@ -44,7 +50,7 @@ public class LessParser {
         return nameMap;
     }
 
-    private static void checkMatch(HashMap<String, String> nameMap, String line) {
+    private void checkMatch(HashMap<String, String> nameMap, String line) {
         Pattern pattern = Pattern.compile(LESS_REG_EX);
         Matcher matcher = pattern.matcher(line);
 
@@ -52,14 +58,11 @@ public class LessParser {
             String key = createCharFromKey(matcher.group(2));
             String name = matcher.group(1);
 
-            //System.out.println("key: " + key);
-            //System.out.println("name: " + name);
-
             nameMap.put(key, name);
         }
     }
 
-    private static String createCharFromKey(String key) {
+    private String createCharFromKey(String key) {
         return String.valueOf((char) Integer.parseInt(key, 16));
     }
 }

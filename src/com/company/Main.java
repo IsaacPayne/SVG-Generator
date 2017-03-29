@@ -1,26 +1,32 @@
 package com.company;
 
 import com.company.models.Glyph;
-import com.company.utils.fileUtils.FileWriter;
 import com.company.utils.parsers.LessParser;
 import com.company.utils.parsers.XMLParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
 
-    //TODO: Accept color as arg
+    //Check that the input is in the format of #000 or #000000
+    private static final String REG_EX_HEX = "^#([0-9A-Fa-f]{3}){1,2}$";
+    private static final String DEFAULT_TINT = "#000000"; //black
+
     public static void main(String[] args) {
-        //if (args.length == 0) {
-        //    System.out.print("Please provide an arg");
-        //}
+        String colour = DEFAULT_TINT;
 
-        String fontPath = "fontawesome-webfont.svg";
-        ArrayList<Glyph> glyphs = XMLParser.parse(fontPath);
+        if (args.length == 1) {
+            colour = getHEXFromInput(args[0]);
+        }
 
-        String lessPath = "variables.less";
-        HashMap<String, String> nameMap = LessParser.parse(lessPath);
+        XMLParser xmlParser = new XMLParser("fontawesome-webfont.svg");
+        ArrayList<Glyph> glyphs = xmlParser.parse();
+
+        LessParser lessParser = new LessParser("variables.less");
+        HashMap<String, String> nameMap = lessParser.parse();
 
         for (Glyph glyph : glyphs) {
             String glyphName = nameMap.get(glyph.getUnicode());
@@ -29,9 +35,21 @@ public class Main {
                 glyph.setName(glyphName);
             }
 
-            //System.out.println("glyphName for " + glyph.getUnicode() + ": " + glyphName);
-            glyph.createFile(FileWriter.OutputType.ANDROID);
-            glyph.createFile(FileWriter.OutputType.SVG);
+            glyph.createFile(Glyph.OutputType.ANDROID, colour);
+            glyph.createFile(Glyph.OutputType.SVG, colour);
         }
     }
+
+    private static String getHEXFromInput(String input) {
+        Pattern pattern = Pattern.compile(REG_EX_HEX);
+        Matcher matcher = pattern.matcher(input);
+
+        if (!matcher.find()) {
+            System.out.println(String.format("Invalid colour entered: %s expecting format #000000 or #000", input));
+            return DEFAULT_TINT;
+        }
+
+        return matcher.group(0);
+    }
 }
+
