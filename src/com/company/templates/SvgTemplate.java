@@ -19,8 +19,6 @@ public class SvgTemplate implements Template {
         this.viewportSize = viewportSize;
         this.colour = colour;
         this.hozAdvX = hozAdvX;
-
-        createSVG();
     }
 
     @Override
@@ -42,7 +40,7 @@ public class SvgTemplate implements Template {
                 viewportSize, viewportSize,
                 colour, path);
     }
-    }
+
 
     @Override
     public String getFileName() {
