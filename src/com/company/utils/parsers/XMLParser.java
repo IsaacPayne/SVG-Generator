@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 /**
  * Created by isaac on 27/03/17.
+ *
+ * Parses the FontAwesome XML file to get the each of the glyphs
  */
 public class XMLParser {
 

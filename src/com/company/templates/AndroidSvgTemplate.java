@@ -4,6 +4,8 @@ import com.company.utils.fileUtils.FileUtils;
 
 /**
  * Created by isaac on 28/03/17.
+ *
+ * A template which will output the glyphs as Android Vector Drawables
  */
 public class AndroidSvgTemplate implements Template {
 

@@ -7,6 +7,8 @@ import com.company.utils.fileUtils.FileWriter;
 
 /**
  * Created by isaac on 27/03/17.
+ *
+ * The glyph model
  */
 public class Glyph {
 
@@ -57,6 +59,11 @@ public class Glyph {
         }
     }
 
+    /**
+     * For debugging purposes override the toString to return pretty string
+     *
+     * @return the object as a string
+     */
     @Override
     public String toString() {
         return

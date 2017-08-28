@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 /**
  * Created by isaac on 27/03/17.
+ *
+ * Parses the less file to get the names of each of the glyphs
  */
 public class LessParser {
 
