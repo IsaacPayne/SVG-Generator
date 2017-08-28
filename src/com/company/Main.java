@@ -31,6 +31,11 @@ public class Main {
         for (Glyph glyph : glyphs) {
             String glyphName = nameMap.get(glyph.getUnicode());
 
+            //Ignore SVGs beginning with a full-stop e.g .notdef
+            if(glyph.getName().startsWith(".")) {
+                continue;
+            }
+
             if(glyphName != null) {
                 glyph.setName(glyphName);
             }
