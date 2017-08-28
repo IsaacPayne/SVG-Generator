@@ -9,16 +9,18 @@ public class AndroidSvgTemplate implements Template {
 
     private final int DEFAULT_SIZE_IN_DP = 256;
 
-    private String fileName;
+    private String name;
     private String path;
     private int viewportSize;
     private String colour;
+    private int hozAdvX;
 
-    public AndroidSvgTemplate(String fileName, String path, int viewportSize, String colour) {
-        this.fileName = fileName;
+    public AndroidSvgTemplate(String name, String path, int viewportSize, String colour, int hozAdvX) {
+        this.name = name;
         this.path = path;
         this.viewportSize = viewportSize;
         this.colour = colour;
+        this.hozAdvX = hozAdvX;
     }
 
     @Override
@@ -38,7 +40,7 @@ public class AndroidSvgTemplate implements Template {
                         "    <path android:fillColor=\"%s\"\n" +
                         "        android:pathData=\"%s\" />\n" +
                         "</vector>\n",
-                fileName,
+                getFileName(),
                 DEFAULT_SIZE_IN_DP, DEFAULT_SIZE_IN_DP,
                 viewportSize, viewportSize,
                 colour, path);
@@ -46,6 +48,6 @@ public class AndroidSvgTemplate implements Template {
 
     @Override
     public String getFileName() {
-        return fileName;
+        return String.format("%s.xml", name);
     }
 }

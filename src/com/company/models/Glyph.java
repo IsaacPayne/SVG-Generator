@@ -21,11 +21,13 @@ public class Glyph {
     private String name;
     private String unicode;
     private String path;
+    private int hozAdvX; //TODO: use to position Android icon
 
-    public Glyph(String name, String unicode, String path) {
+    public Glyph(String name, String unicode, String path, int hozAdvX) {
         this.name = name;
         this.unicode = unicode;
         this.path = path;
+        this.hozAdvX = hozAdvX;
     }
 
     public String getName() {
@@ -45,14 +47,12 @@ public class Glyph {
     }
 
     public void createFile(OutputType outputType, String colour) {
-        String fileName = String.format("%s.xml", name);
-
         switch (outputType) {
             case ANDROID:
-                FileWriter.writeToFile(new AndroidSvgTemplate(fileName, path, DEFAULT_VIEWPORT_SIZE, colour));
+                FileWriter.writeToFile(new AndroidSvgTemplate(name, path, DEFAULT_VIEWPORT_SIZE, colour, hozAdvX));
                 break;
             case SVG:
-                FileWriter.writeToFile(new SvgTemplate(fileName, path, DEFAULT_VIEWPORT_SIZE, colour));
+                FileWriter.writeToFile(new SvgTemplate(name, path, DEFAULT_VIEWPORT_SIZE, colour, hozAdvX));
                 break;
         }
     }

@@ -7,40 +7,45 @@ import com.company.utils.fileUtils.FileUtils;
  */
 public class SvgTemplate implements Template {
 
-    private String fileName;
+    private String name;
     private String path;
     private int viewportSize;
     private String colour;
+    private int hozAdvX;
 
-    public SvgTemplate(String fileName, String path, int viewportSize, String colour) {
-        this.fileName = fileName;
+    public SvgTemplate(String name, String path, int viewportSize, String colour, int hozAdvX) {
+        this.name = name;
         this.path = path;
         this.viewportSize = viewportSize;
         this.colour = colour;
+        this.hozAdvX = hozAdvX;
+
+        createSVG();
     }
 
     @Override
     public String getOutputPath() {
-
         return FileUtils.getOutputPath() + colour.substring(1) + "/" + "svg/";
     }
 
     @Override
     public String getOutputString() {
         return String.format("<svg " +
+                        "xmlns=\"http://www.w3.org/2000/svg\" " +
                         "width=\"%d\" " +
                         "height=\"%d\" " +
-                        "viewBox=\"0 0 %d %d\" " +
-                        "xmlns=\"http://www.w3.org/2000/svg\">" +
-                        "<path d=\"%s\" fill=\"%s\"/>" +
+                        "viewBox=\"%d %d %d %d\" >" +
+                        "<path fill=\"%s\" transform=\"scale(1 -1)\" d=\"%s\"/>" +
                         "</svg>",
                 viewportSize, viewportSize,
+                -(viewportSize - hozAdvX) / 2, -1536,
                 viewportSize, viewportSize,
-                path, colour);
+                colour, path);
+    }
     }
 
     @Override
     public String getFileName() {
-        return fileName;
+        return String.format("%s.svg", name);
     }
 }
